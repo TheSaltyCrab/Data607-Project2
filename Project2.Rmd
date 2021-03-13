@@ -1,0 +1,176 @@
+---
+title: "Project 2"
+author: "Daniel Sullivan"
+date: "3/8/2021"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+
+```{r}
+library(tidyverse)
+library(dplyr)
+library(readr)
+library(stringr)
+library(openintro)
+options(scipen = 999)
+```
+
+Import csv pandemic file and view the data frame. and remove Referance columns since this info was lost when it was converted to csv format. 
+```{r}
+epidemic<-read.csv("https://raw.githubusercontent.com/TheSaltyCrab/Data607-Project2/main/epidemic.csv")
+pop_pre1940<- read.csv("https://raw.githubusercontent.com/TheSaltyCrab/Data607-Project2/main/worldpop_pre1940.csv")
+pop_post1950<- read.csv("https://raw.githubusercontent.com/TheSaltyCrab/Data607-Project2/main/worldpop_post1950.csv")
+```
+
+##Standardizing and cleaning each data set.
+
+###Epidemic Data
+
+First clear the reference column since we wont need it and then clear the empty space that was made from the immages that origionally were inserted in the table. 
+```{r}
+epidemic2<-epidemic%>%
+  select(-"Ref.")%>%
+  filter(Event != "")
+```
+
+This block separates out the year the event ended from the Date column. It first removes any parenthasis from the data then extracts the actual end date from the range and then removes all hyphans in the data set
+
+```{r}
+epidemic2$end_date<-epidemic2$Date%>%
+  str_replace_all("\\(.*\\)", "")%>%
+  str_extract("–.*")%>%
+  str_remove_all("–")
+```
+
+This block this block removes excess data from the date and event columns respectivly starting with data in parenthasis and then for the date column removing the end date and hyphen.
+
+```{r}
+epidemic2$Date<-epidemic2$Date%>% 
+  str_replace_all("\\(.*\\)", "")%>%
+  str_remove_all("–.*")
+  
+epidemic2$Event<-epidemic2$Event%>%
+  str_replace_all("\\(.*\\)", "")
+```
+
+
+These two blocks break out the death toll estimate column into two separate columns a high estimate and a low estimate. these lines first target any non formated excess data like notes in parentheses, plus signs after numbers and any signatures left behind by wikipedia referances. it then replaces any events with unkonwn death tolls and descriptions with just the unkown value. in the case of the first row it extracts the high prediction for death toll and makes a new column. lastly it converts any value in the millions from somthing like "1 million" to the numeric value. lastly it clears all non numeric values from the low estimate column.
+```{r}
+epidemic2$death_high<-epidemic2$Death.toll..estimate.%>%
+  #str_replace_all("\\(.*\\)", "")%>%
+  str_remove_all("\\(.*\\)|\\+")%>%
+  str_replace_all(".*Unknown.*", "Unknown")%>%
+  str_extract("–.*")%>%
+  str_remove_all("–|,")%>%
+  str_replace_all("2.5 million", "2500000")%>%
+  str_replace_all(" million", "000000")
+
+epidemic2$Death.toll..estimate.<-epidemic2$Death.toll..estimate.%>%
+  str_remove_all("\\(.*\\)|\\+|,|\\[.{3,3}\\]|")%>%
+  str_replace_all(".*Unknown.*", "Unknown")%>%
+  str_replace_all("2.6 million", "2600000")%>%
+  str_replace_all("–.* million", "000000")%>%
+  str_replace_all(" million", "000000")%>%
+  str_remove_all("–.*")%>%
+  str_match("[0-9]*")
+```
+
+
+```{r}
+epidemic2$Disease<-epidemic2$Disease%>%
+  str_replace_all(".*Unknown.*", "Unknown")
+```
+
+
+here we set all column names as well as all of the numeric values. 
+```{r}
+colnames(epidemic2)<-c("event", "start_year","location","disease","deaths_low_estimate","end_year","deaths_high_estimate")
+
+epidemic2$end_year<- ifelse(is.na(epidemic2$end_year), epidemic2$start_year, epidemic2$end_year)
+
+epidemic2$start_year<-as.numeric(epidemic2$start_year)
+epidemic2$deaths_low_estimate<-as.numeric(epidemic2$deaths_low_estimate)
+epidemic2$end_year<-as.numeric(epidemic2$end_year)
+epidemic2$deaths_high_estimate<-as.numeric(epidemic2$deaths_high_estimate)
+```
+
+
+This for/if/else statement rounds the years so that when we do our join of our three data frames we have a prediction of population for each plague that changes as population predictions/measurements get more accurate. The goal of this is to change as our data improves and we have fewer years inbetween a measurment/prediction how we round changes. Here we are rounding up to the century between 1AD and 1900AD, to every 10 years between 1900 and 1950, and not rounding at all from 1950 on.
+
+```{r}
+
+epidemic2$rounded_year<-lapply(epidemic2$start_year, function(x) if(x <= 999){signif(x, digits = 1)} else if(1900>x){signif(x,digits = 2)}else if(x<1950){signif(x,digits = 3)} else {x})
+
+```
+
+###Population data
+
+We start by cutting out the data we do not need i.e BCE dates with tail and then selecting which metric of measuring is best. for this I chose HYDE since the data had the most time points and had more consistent intervals. After that we remove all commas and then turn the M in each cell to a numeric value making the number in millions. after that we rename the columns and convert to numeric.
+```{r}
+pre1940_noBC<- pop_pre1940%>%
+  tail(35)
+pre1940_noBC<- pre1940_noBC%>%
+  select(ï..Year,HYDE)%>%
+  filter(HYDE != "")
+pre1940_noBC$HYDE<- pre1940_noBC$HYDE%>%
+  str_remove_all(",")%>%
+  str_replace_all("M.*","000000")
+colnames(pre1940_noBC)<-c("rounded_year", "global_population")
+pre1940_noBC$rounded_year<-as.numeric(pre1940_noBC$rounded_year)
+pre1940_noBC$global_population<-as.numeric(pre1940_noBC$global_population)
+```
+
+For this we use the USA census global population data first by selecting the columns we need and then rename them so that when we combine pop data it combines easily. then we clear all commas from the data so we can convert to numeric.
+
+```{r}
+post1950_US<-pop_post1950%>%
+  select(ï..Year,United.States.Census.Bureau)
+colnames(post1950_US)<-c("rounded_year", "global_population")
+post1950_US$global_population<-post1950_US$global_population%>%
+  str_remove_all(",")
+
+post1950_US$rounded_year<-as.numeric(post1950_US$rounded_year)
+post1950_US$global_population<-as.numeric(post1950_US$global_population)
+```
+
+This binds the two sets of population data essentially stacking one on top of each other where the columns match. 
+
+```{r}
+pop_data<-bind_rows(pre1940_noBC, post1950_US)
+pop_data$rounded_year<-as.list(pop_data$rounded_year)
+```
+
+using the rounded year values in our epidemic table we join our two data tables on the rounded year adding the global population column to our first data set.
+
+```{r}
+epidemic3<-left_join(epidemic2, pop_data, by="rounded_year")
+```
+
+The mutate function is used to calculate a new column for the percentage of the global population that has died fo both our low and high estimates.we also remove any data that is out of our range for population this value is anything beyond 2017 
+
+```{r}
+epidemic3<-epidemic3%>%
+  mutate(high_global_death_percent= deaths_high_estimate/global_population)%>%
+  mutate(low_global_death_percent= deaths_low_estimate/global_population)
+
+```
+
+Lastly we aroganize the rows and then sort by which disease had the highest mortality percentage. 
+
+```{r}
+epidemic_final<-epidemic3%>%
+  select(c(event, start_year, end_year, disease, deaths_low_estimate, global_population, low_global_death_percent))%>%
+  arrange(desc(low_global_death_percent))
+
+```
+
+
+
+```{r}
+write.csv(epidemic_final, "a_clean_epidemic.csv")
+```
+

@@ -1,0 +1,247 @@
+"","event","start_year","end_year","disease","deaths_low_estimate","global_population","low_global_death_percent"
+"1","Black Death ",1346,1353,"Bubonic plague",75000000,392000000,0.191326530612245
+"2","Plague of Justinian ",541,549,"Bubonic plague",15000000,210000000,0.0714285714285714
+"3","Antonine Plague",165,180,"Unknown",5000000,202000000,0.0247524752475248
+"4","1520 Mexico smallpox epidemic",1519,1520,"Smallpox",5000000,461000000,0.0108459869848156
+"5","Cocoliztli Epidemic of 1545–1548",1545,1548,"Possibly Salmonella enterica",5000000,461000000,0.0108459869848156
+"6","1918 influenza pandemic ",1918,1920,"Influenza A virus subtype H1N1",17000000,1912000000,0.00889121338912134
+"7","735–737 Japanese smallpox epidemic",735,737,"Smallpox",2000000,226000000,0.00884955752212389
+"8","HIV/AIDS pandemic",1981,NA,"HIV/AIDS",35000000,4534410125,0.00771875481819148
+"9","Third plague pandemic",1855,1960,"Bubonic plague",12000000,1654000000,0.00725513905683192
+"10","Cocoliztli epidemic of 1576",1576,1580,"Possibly Salmonella enterica",2000000,554000000,0.0036101083032491
+"11","Naples Plague ",1656,1658,"Bubonic plague",1250000,603000000,0.00207296849087894
+"12","1772–1773 Persian Plague ",1772,1773,"Bubonic plague",2000000,989000000,0.00202224469160768
+"13","1629–1631 Italian plague ",1629,1631,"Bubonic plague",1000000,554000000,0.00180505415162455
+"14","1596–1602 Spain plague epidemic ",1596,1602,"Bubonic plague",600000,554000000,0.00108303249097473
+"15","1918–1922 Russia typhus epidemic",1918,1922,"Typhus",2000000,1912000000,0.00104602510460251
+"16","Third cholera pandemic",1846,1860,"Cholera",1000000,989000000,0.00101112234580384
+"17","Great Plague of Seville ",1647,1652,"Bubonic plague",500000,554000000,0.000902527075812274
+"18","1889–1890 flu pandemic",1889,1890,"Influenza or Human coronavirus OC43 / HCoV-OC43[159][160] (disputed)",1000000,1654000000,0.00060459492140266
+"19","Sixth cholera pandemic",1899,1923,"Cholera",800000,1654000000,0.000483675937122128
+"20","Fourth cholera pandemic",1863,1875,"Cholera",600000,1654000000,0.000362756952841596
+"21","Great Plague in late Ming Dynasty ",1633,1644,"Bubonic plague",200000,554000000,0.00036101083032491
+"22","1957–1958 influenza pandemic ",1957,1958,"Influenza A virus subtype H2N2",1000000,2891349717,0.00034585923457145
+"23","1812 Russia Typhus epidemic",1812,1812,"Typhus",300000,989000000,0.000303336703741153
+"24","1812–19 Ottoman plague epidemic ",1812,1819,"Bubonic plague",300000,989000000,0.000303336703741153
+"25","1870–1875 Europe smallpox epidemic",1870,1875,"Smallpox",500000,1654000000,0.00030229746070133
+"26","1896–1906 Congo Basin African trypanosomiasis epidemic",1896,1906,"African trypanosomiasis",500000,1654000000,0.00030229746070133
+"27","Hong Kong flu",1968,1970,"Influenza A virus subtype H3N2",1000000,3562313822,0.000280716424764219
+"28","Great Northern War plague outbreak ",1710,1712,"Bubonic plague",164000,603000000,0.000271973466003317
+"29","1915 Encephalitis lethargica pandemic",1915,1926,"Encephalitis lethargica",500000,1912000000,0.000261506276150628
+"30","Fifth cholera pandemic",1881,1896,"Cholera",298600,1654000000,0.000180532043530834
+"31","Great Plague of London ",1665,1666,"Bubonic plague",100000,603000000,0.000165837479270315
+"32","Great Plague of Marseille ",1720,1722,"Bubonic plague",100000,603000000,0.000165837479270315
+"33","1977 Russian flu",1977,1979,"Influenza A virus subtype H1N1",700000,4232084578,0.000165403121581943
+"34","1829–1833 Pacific Northwest malaria epidemic",1829,1833,"Malaria, possibly other diseases too",150000,989000000,0.000151668351870576
+"35","1681 Prague plague epidemic ",1681,1681,"Bubonic plague",83000,603000000,0.000137645107794362
+"36","Great Plague of Vienna ",1679,1679,"Bubonic plague",76000,603000000,0.000126036484245439
+"37","1900–1920 Uganda African trypanosomiasis epidemic",1900,1920,"African trypanosomiasis",200000,1654000000,0.000120918984280532
+"38","Plague of Sheroe ",627,628,"Bubonic plague",25000,213000000,0.000117370892018779
+"39","Plague of Amwas ",638,639,"Bubonic plague",25000,213000000,0.000117370892018779
+"40","First cholera pandemic",1817,1824,"Cholera",100000,989000000,0.000101112234580384
+"41","Second cholera pandemic",1826,1837,"Cholera",100000,989000000,0.000101112234580384
+"42","Great Plague of 1738 ",1738,1738,"Bubonic plague",50000,603000000,0.0000829187396351575
+"43","1603 London plague epidemic ",1603,1603,"Bubonic plague",40000,554000000,0.000072202166064982
+"44","1668 France plague ",1668,1668,"Bubonic plague",40000,603000000,0.000066334991708126
+"45","1743 Sicily plague epidemic ",1743,1743,"Bubonic plague",40000,603000000,0.000066334991708126
+"46","1817–1819 Ireland typhus epidemic",1817,1819,"Typhus",65000,989000000,0.0000657229524772497
+"47","1800–1803 Spain yellow fever epidemic",1800,1803,"Yellow fever",60000,989000000,0.0000606673407482305
+"48","Caragea's plague ",1813,1813,"Bubonic plague",60000,989000000,0.0000606673407482305
+"49","Russian plague of 1770–1772 ",1770,1772,"Bubonic plague",50000,989000000,0.0000505561172901921
+"50","1861–1865 United States typhoid fever epidemic",1861,1865,"Typhoid fever",80000,1654000000,0.0000483675937122128
+"51","1906 malaria outbreak in Ceylon",1906,1936,"Malaria",80000,1777000000,0.0000450196961170512
+"52","1663–1664 Amsterdam plague epidemic ",1663,1664,"Bubonic plague",24148,603000000,0.0000400464344941957
+"53","1489 Spain typhus epidemic",1489,1489,"Typhus",17000,461000000,0.0000368763557483731
+"54","1563 London plague ",1563,1564,"Bubonic plague",20100,554000000,0.0000362815884476534
+"55","1592–93 London plague ",1592,1593,"Bubonic plague",19900,554000000,0.0000359205776173285
+"56","Manchurian plague ",1910,1911,"Pneumonic plague",60000,1777000000,0.0000337647720877884
+"57","1735–1741 Diphtheria epidemic",1735,1741,"Diphtheria",20000,603000000,0.000033167495854063
+"58","1741 Cartagena yellow fever epidemic",1741,1741,"Yellow fever",20000,603000000,0.000033167495854063
+"59","1707–1709 Iceland smallpox epidemic",1707,1709,"Smallpox",18000,603000000,0.0000298507462686567
+"60","1802–1803 Saint-Domingue yellow fever epidemic",1802,1803,"Yellow fever",29000,989000000,0.0000293225480283114
+"61","1634–1640 Wyandot people epidemic of infections",1634,1640,"Smallpox and Influenza",15000,554000000,0.0000270758122743682
+"62","1632–1635 Augsburg plague epidemic ",1632,1635,"Bubonic plague",13712,554000000,0.0000247509025270758
+"63","1875 Fiji measles outbreak",1875,1875,"Measles",40000,1654000000,0.0000241837968561064
+"64","1910 China plague ",1910,1912,"Bubonic plague",40000,1777000000,0.0000225098480585256
+"65","Sweating sickness ",1485,1551,"Unknown",10000,461000000,0.0000216919739696312
+"66","1847 North American typhus epidemic",1847,1848,"Typhus",20000,989000000,0.0000202224469160768
+"67","1828–1829 New South Wales smallpox epidemic",1828,1829,"Smallpox",19000,989000000,0.000019211324570273
+"68","1637 London plague epidemic ",1636,1637,"Bubonic plague",10400,554000000,0.0000187725631768953
+"69","1675–76 Malta plague epidemic ",1675,1676,"Bubonic plague",11300,603000000,0.0000187396351575456
+"70","1837 Great Plains smallpox epidemic",1837,1838,"Smallpox",17000,989000000,0.0000171890798786653
+"71","1738–1739 North Carolina smallpox epidemic",1738,1739,"Smallpox",7700,603000000,0.0000127694859038143
+"72","Bombay plague epidemic ",1896,1905,"Bubonic plague",20788,1654000000,0.0000125683192261185
+"73","1862 Pacific Northwest smallpox epidemic",1862,1863,"Smallpox",20000,1654000000,0.0000120918984280532
+"74","1876 Ottoman Empire plague epidemic",1876,1876,"Bubonic plague",20000,1654000000,0.0000120918984280532
+"75","1894 Hong Kong plague ",1894,1929,"Bubonic plague",20000,1654000000,0.0000120918984280532
+"76","1775–1782 North American smallpox epidemic",1775,1782,"Smallpox",11000,989000000,0.0000111223458038423
+"77","1848–1849 Hawaii epidemic of infections",1848,1849,"Measles, whooping cough, dysentery and influenza",10000,989000000,0.0000101112234580384
+"78","1960–1962 Ethiopia yellow fever epidemic",1960,1962,"Yellow fever",30000,3043001508,0.00000985868719457762
+"79","1582 Tenerife plague epidemic ",1582,1583,"Bubonic plague",5000,554000000,0.00000902527075812274
+"80","1871 Buenos Aires yellow fever epidemic",1871,1871,"Yellow fever",13500,1654000000,0.00000816203143893591
+"81","1762 Havana yellow fever epidemic",1762,1762,"Yellow fever",8000,989000000,0.00000808897876643074
+"82","1878 Mississippi Valley yellow fever epidemic",1878,1878,"Yellow fever",13000,1654000000,0.00000785973397823458
+"83","1592–93 Malta plague epidemic ",1592,1593,"Bubonic plague",3000,554000000,0.00000541516245487365
+"84","1693 Boston yellow fever epidemic",1693,1693,"Yellow fever",3100,603000000,0.00000514096185737977
+"85","1793 Philadelphia yellow fever epidemic",1793,1793,"Yellow fever",5000,989000000,0.00000505561172901921
+"86","1821 Barcelona yellow fever epidemic",1821,1821,"Yellow fever",5000,989000000,0.00000505561172901921
+"87","1875–1876 Australia scarlet fever epidemic",1875,1876,"Scarlet fever",8000,1654000000,0.00000483675937122128
+"88","1853 New Orleans yellow fever epidemic",1853,1853,"Yellow fever",7970,1654000000,0.0000048186215235792
+"89","1813–14 Malta plague epidemic ",1813,1814,"Bubonic plague",4500,989000000,0.00000455005055611729
+"90","1947 Egypt cholera epidemic",1947,1947,"Cholera",10277,2557628654,0.0000040181751889303
+"91","1974 smallpox epidemic of India",1974,1974,"Smallpox",15000,4016608813,0.00000373449362343965
+"92","1916 United States polio epidemic",1916,1916,"Poliomyelitis",7130,1912000000,0.00000372907949790795
+"93","1730 Cádiz yellow fever epidemic",1730,1730,"Yellow fever",2200,603000000,0.00000364842454394693
+"94","1857 Lisbon yellow fever epidemic",1857,1857,"Yellow fever",6000,1654000000,0.00000362756952841596
+"95","1841 Southern United States yellow fever epidemic",1841,1841,"Yellow fever",3498,989000000,0.00000353690596562184
+"96","1948–1952 United States polio epidemic",1948,1952,"Poliomyelitis",9000,2557628654,0.00000351888456751705
+"97","1847 Southern United States yellow fever epidemic",1847,1847,"Yellow fever",3400,989000000,0.00000343781597573306
+"98","1853 Copenhagen cholera outbreak",1853,1853,"Cholera",4737,1654000000,0.0000028639661426844
+"99","Groningen epidemic",1829,1829,"Malaria",2800,989000000,0.00000283114256825076
+"100","1878 New Orleans yellow fever epidemic",1878,1878,"Yellow fever",4046,1654000000,0.00000244619105199516
+"101","1702–1703 St. Lawrence Valley smallpox epidemic",1702,1703,"Smallpox",1300,603000000,0.0000021558872305141
+"102","1885 Montreal smallpox epidemic",1885,1885,"Smallpox",3164,1654000000,0.00000191293833131802
+"103","1855 Norfolk yellow fever epidemic",1855,1855,"Yellow fever",3000,1654000000,0.00000181378476420798
+"104","Massachusetts smallpox epidemic",1633,1634,"Smallpox",1000,554000000,0.00000180505415162455
+"105","1996 West Africa meningitus epidemic",1996,1996,"Meningitis",10000,5779440593,0.00000173027126744964
+"106","Papua New Guinea kuru epidemic",1901,2009,"Kuru",2700,1654000000,0.00000163240628778718
+"107","Western African Ebola virus epidemic",2013,2016,"Ebola",11323,7092128094,0.00000159655886779306
+"108","1991 Bangladesh cholera epidemic",1991,1991,"Cholera",8410,5371585922,0.00000156564562535541
+"109","1991 Latin America cholera epidemic",1991,1993,"Cholera",8000,5371585922,0.00000148931807405984
+"110","2010s Haiti cholera outbreak",2010,2019,"Cholera (strain serogroup O1, serotype Ogawa)",10075,6858584755,0.00000146896194475911
+"111","1721 Boston smallpox outbreak",1721,1722,"Smallpox",844,603000000,0.00000139966832504146
+"112","1677–1678 Boston smallpox epidemic",1677,1678,"Smallpox",750,603000000,0.00000124378109452736
+"113","1986 Oju yellow fever epidemic",1986,1986,"Yellow fever",5600,4940571232,0.0000011334721709362
+"114","1772 North America measles epidemic",1772,1772,"Measles",1080,989000000,0.00000109201213346815
+"115","1699 Charleston and Philadelphia yellow fever epidemic",1699,1699,"Yellow fever",520,603000000,0.000000862354892205638
+"116","1702 New York City yellow fever epidemic",1702,1702,"Yellow fever",500,603000000,0.000000829187396351575
+"117","1760 Charleston smallpox epidemic",1760,1760,"Smallpox",730,989000000,0.000000738119312436805
+"118","1820 Savannah yellow fever epidemic",1820,1820,"Yellow fever",700,989000000,0.00000070778564206269
+"119","1940 Sudan yellow fever epidemic",1940,1940,"Yellow fever",1627,2307000000,0.000000705244906805375
+"120","2010–2014 Democratic Republic of the Congo measles outbreak",2010,2014,"Measles",4500,6858584755,0.000000656112034880001
+"121","2008–09 Zimbabwean cholera outbreak",2008,2009,"Cholera",4293,6709049780,0.000000639881971482406
+"122","2016–2021 Yemen cholera outbreak",2016,NA,"Cholera",3886,7325996709,0.000000530439768724717
+"123","2008–2017 China hand, foot, and mouth disease epidemic",2008,2017,"Hand, foot, and mouth disease",3322,6709049780,0.000000495152086947252
+"124","1867 Sydney measles epidemic",1867,1867,"Measles",748,1654000000,0.00000045223700120919
+"125","1854 Broad Street cholera outbreak",1854,1854,"Cholera",616,1654000000,0.000000372430471584039
+"126","2015 Indian swine flu outbreak",2015,2015,"Influenza A virus subtype H1N1",2035,7247892788,0.000000280771261320153
+"127","London flu",1972,1973,"Influenza A virus subtype H3N2",1027,3866568653,0.000000265610181058901
+"128","1924–1925 Minnesota smallpox epidemic",1924,1925,"Smallpox",500,1912000000,0.000000261506276150628
+"129","1927 Montreal typhoid fever epidemic",1927,1927,"Typhoid fever",538,2092000000,0.00000025717017208413
+"130","2006 Luanda cholera epidemic",2006,2006,"Cholera",1200,6551263534,0.000000183170772137649
+"131","2009–10 West African meningitis outbreak",2009,2010,"Meningitis",1100,6788214394,0.000000162045559576355
+"132","2006 Philippines dengue epidemic",2006,2006,"Dengue fever",1000,6551263534,0.000000152642310114707
+"133","2012 Middle East respiratory syndrome coronavirus outbreak",2012,NA,"Middle East respiratory syndrome / MERS-CoV",936,7013871313,0.000000133449839358352
+"134","2002–04 SARS outbreak",2002,2004,"Severe acute respiratory syndrome / SARS",774,6242016348,0.000000123998393603695
+"135","2007 Ethiopia cholera epidemic",2007,2007,"Cholera",684,6629913759,0.000000103168762802002
+"136","2004 Indonesia dengue epidemic",2004,2004,"Dengue fever",658,6395699509,0.000000102881631489107
+"137","2013–19 Avian influenza epidemic",2013,2019,"Influenza A virus subtype H7N9",616,7092128094,0.0000000868568632483022
+"138","1899 Porto plague outbreak ",1899,1899,"Bubonic plague",132,1654000000,0.0000000798065296251512
+"139","2003–2019 Asia and Egypt Avian influenza epidemic",2003,2019,"Influenza A virus subtype H5N1",455,6318590956,0.000000072009725454366
+"140","San Francisco plague of 1900–1904 ",1900,1904,"Bubonic plague",119,1654000000,0.0000000719467956469166
+"141","2016 Angola and DR Congo yellow fever outbreak",2016,2016,"Yellow fever",498,7325996709,0.0000000679770985138727
+"142","2001 Nigeria cholera epidemic",2001,2001,"Cholera",400,6165219247,0.0000000648800933064368
+"143","1900 Sydney bubonic plague epidemic ",1900,1900,"Bubonic plague",103,1654000000,0.000000062273276904474
+"144","2008 Cambodia dengue epidemic",2008,2008,"Dengue fever",407,6709049780,0.0000000606643285332726
+"145","2006–07 East Africa Rift Valley fever outbreak",2006,2007,"Rift Valley fever",394,6551263534,0.0000000601410701851946
+"146","2011 dengue outbreak in Pakistan",2011,2011,"Dengue fever",350,6935999491,0.0000000504613647181134
+"147","1929–1930 Psittacosis Pandemic",1929,1930,"Psittacosis",100,2092000000,0.0000000478011472275335
+"148","2014 Madagascar plague outbreak",2014,2017,"Bubonic plague",292,7169968185,0.0000000407254247809469
+"149","United Kingdom BSE outbreak",1996,2001,"Variant Creutzfeldt–Jakob disease / vCJD",178,5779440593,0.0000000307988285606036
+"150","1987 Mali yellow fever epidemic",1987,1987,"Yellow fever",145,5027200492,0.0000000288430907481698
+"151","Mweka ebola epidemic",2007,2007,"Ebola",187,6629913759,0.0000000282054950935298
+"152","2007 Puerto Rico, Dominican Republic, and Mexico dengue fever epidemic",2007,2007,"Dengue fever",183,6629913759,0.0000000276021689952724
+"153","2013–14 chikungunya outbreak",2013,2015,"Chikungunya",183,7092128094,0.0000000258032564520118
+"154","2008 Philippines dengue epidemic",2008,2008,"Dengue fever",172,6709049780,0.0000000256370135324886
+"155","2011 Vietnam hand, foot and mouth disease epidemic",2011,2011,"Hand, foot and mouth disease",170,6935999491,0.0000000245098057202265
+"156","2012 yellow fever outbreak in Darfur, Sudan",2012,2012,"Yellow fever",171,7013871313,0.000000024380259113545
+"157","Sverdlovsk anthrax leak",1979,1979,"Anthrax",105,4379013942,0.0000000239780008446477
+"158","2001 South Africa cholera epidemic",2001,2001,"Cholera",139,6165219247,0.0000000225458324239868
+"159","2013 Vietnam measles outbreak",2013,2014,"Measles",142,7092128094,0.0000000200221989955502
+"160","Croydon typhoid outbreak of 1937",1937,1937,"Typhoid fever",43,2307000000,0.0000000186389250108366
+"161","2008 Chad cholera epidemic",2008,2008,"Cholera",123,6709049780,0.0000000183334457238146
+"162","1998–99 Malaysia Nipah virus outbreak",1998,1999,"Nipah virus infection",105,5935213248,0.0000000176910239973908
+"163","2008 India cholera epidemic",2008,2008,"Cholera",115,6709049780,0.0000000171410264897453
+"164","1924 Los Angeles pneumonic plague outbreak",1924,1924,"Pneumonic plague",30,1912000000,0.0000000156903765690377
+"165","2007 Netherlands Q-fever epidemic",2007,2018,"Q-fever",95,6629913759,0.0000000143289948336114
+"166","1984 Western Sahara plague",1984,1984,"Bubonic plague",64,4774569391,0.0000000134043501641508
+"167","1903 India plague epidemic ",1903,1903,"Bubonic plague",22,1654000000,0.0000000133010882708585
+"168","2008 Brazil dengue epidemic",2008,2008,"Dengue fever",67,6709049780,0.00000000998651108532988
+"169","1994 plague in India",1994,1994,"Bubonic plague and Pneumonic plague",56,5618682132,0.00000000996674997524135
+"170","2006 Ituri Province plague epidemic",2006,2006,"Bubonic plague",61,6551263534,0.00000000931118091699713
+"171","1972 Yugoslav smallpox outbreak",1972,1972,"Smallpox",35,3866568653,0.00000000905195359012807
+"172","2006 dengue outbreak in India",2006,2006,"Dengue fever",50,6551263534,0.00000000763211550573535
+"173","2006 dengue outbreak in Pakistan",2006,2006,"Dengue fever",50,6551263534,0.00000000763211550573535
+"174","2015–16 Zika virus epidemic",2015,2016,"Zika virus",53,7247892788,0.00000000731247019654452
+"175","2009 Gujarat hepatitis outbreak",2009,2009,"Hepatitis B",49,6788214394,0.00000000721839310840128
+"176","2000 Central America dengue epidemic",2000,2000,"Dengue fever",40,6088571383,0.00000000656968564279047
+"177","1973 Italy Cholera El Tor epidemic",1973,1973,"Cholera (El Tor strain)",24,3942096442,0.00000000608813111325702
+"178","2007 Uganda ebola outbreak",2007,2007,"Ebola",37,6629913759,0.00000000558076640888022
+"179","2014 Odisha jaundice outbreak",2014,2015,"Primarily Hepatitis E, but also Hepatitis A",36,7169968185,0.00000000502094278121263
+"180","2005 dengue outbreak in Singapore",2005,2005,"Dengue fever",27,6473044732,0.0000000041711437380501
+"181","2008 Madagascar plague outbreak",2008,2008,"Bubonic plague",18,6709049780,0.00000000268294327665579
+"182","2009 Bolivian dengue fever epidemic",2009,2009,"Dengue fever",18,6788214394,0.00000000265165461124945
+"183","2006 India malaria outbreak",2006,2006,"Malaria",17,6551263534,0.00000000259491927195002
+"184","1903 Fremantle plague epidemic ",1903,1903,"Bubonic plague",4,1654000000,0.00000000241837968561064
+"185","2007 Iraq cholera outbreak",2007,2007,"Cholera",10,6629913759,0.0000000015083152456433
+"186","1971 Staphorst polio epidemic",1971,1971,"Poliomyelitis",5,3790326948,0.00000000131914741619804
+"187","2013 dengue outbreak in Singapore",2013,2013,"Dengue fever",8,7092128094,0.00000000112801121101691
+"188","2004 Sudan ebola outbreak",2004,2004,"Ebola",7,6395699509,0.00000000109448544137348
+"189","2003 Algeria plague outbreak",2003,2003,"Bubonic plague",1,6318590956,0.000000000158263132866738
+"190","Queensland 2009 dengue outbreak",2009,2009,"Dengue fever",1,6788214394,0.000000000147314145069414
+"191","2004 Afghanistan leishmaniasis epidemic",2004,2004,"Leishmaniasis",0,6395699509,0
+"192","Jian'an Plague",217,217,"Unknown",NA,202000000,NA
+"193","Plague of Cyprian",250,266,"Unknown",NA,202000000,NA
+"194","Roman Plague of 590 ",590,590,"Bubonic plague",NA,213000000,NA
+"195","Plague of 664 ",664,689,"Bubonic plague",NA,226000000,NA
+"196","Plague of 698–701 ",698,701,"Bubonic plague",NA,226000000,NA
+"197","Plague of 746–747 ",746,747,"Bubonic plague",NA,226000000,NA
+"198","1510 influenza pandemic",1510,1510,"Influenza",NA,461000000,NA
+"199","1557 influenza pandemic",1557,1559,"Influenza",NA,554000000,NA
+"200","1561 Chile smallpox epidemic",1561,1562,"Smallpox",NA,554000000,NA
+"201","1592–1596 Seneca nation measles epidemic",1592,1596,"Measles",NA,554000000,NA
+"202","1600–1650 South America malaria epidemic",1600,1650,"Malaria",NA,554000000,NA
+"203","1616 New England infections epidemic",1616,1620,"Unknown",NA,554000000,NA
+"204","1648 Central America yellow fever epidemic",1648,1648,"Yellow fever",NA,554000000,NA
+"205","1676–1685 Spain plague ",1676,1685,"Bubonic plague",NA,603000000,NA
+"206","1687 South Africa Influenza outbreak",1687,1687,"Unknown",NA,603000000,NA
+"207","1713–1715 North America measles epidemic",1713,1715,"Measles",NA,603000000,NA
+"208","1732–1733 Thirteen Colonies influenza epidemic",1732,1733,"Influenza",NA,603000000,NA
+"209","1733 New France smallpox epidemic",1733,1733,"Smallpox",NA,603000000,NA
+"210","1759 North America measles outbreak",1759,1759,"Measles",NA,989000000,NA
+"211","1763 Pittsburgh area smallpox outbreak",1763,1763,"Smallpox",NA,989000000,NA
+"212","1775–1776 England influenza outbreak",1775,1776,"Influenza",NA,989000000,NA
+"213","1778 Spain dengue fever outbreak",1778,1778,"Dengue fever",NA,989000000,NA
+"214","1788 Pueblo Indians smallpox epidemic",1788,1788,"Smallpox",NA,989000000,NA
+"215","1789–1790 New South Wales smallpox epidemic",1789,1790,"Smallpox",NA,989000000,NA
+"216","1801 Ottoman Empire and Egypt bubonic plague epidemic",1801,1801,"Bubonic plague",NA,989000000,NA
+"217","1829–1835 Iran plague outbreak",1829,1835,"Bubonic plague",NA,989000000,NA
+"218","1834–1836 Egypt plague epidemic",1834,1836,"Bubonic plague",NA,989000000,NA
+"219","1847–1848 influenza epidemic",1847,1848,"Influenza",NA,989000000,NA
+"220","1853 Ottoman Empire plague epidemic",1853,1853,"Bubonic plague",NA,1654000000,NA
+"221","1857 Victoria smallpox epidemic",1857,1857,"Smallpox",NA,1654000000,NA
+"222","1857–1859 Europe and the Americas influenza epidemic",1857,1859,"Influenza",NA,1654000000,NA
+"223","1937 Australia polio epidemic",1937,1937,"Poliomyelitis",NA,2307000000,NA
+"224","1942–1944 Egypt malaria epidemic",1942,1944,"Malaria",NA,2307000000,NA
+"225","1946 Egypt relapsing fever epidemic",1946,1946,"Relapsing fever",NA,2557628654,NA
+"226","Seventh cholera pandemic",1961,1975,"Cholera (El Tor strain)",NA,3083966929,NA
+"227","Mumps outbreaks in the 2000s",2009,2009,"Mumps",NA,6788214394,NA
+"228","2009 swine flu pandemic",2009,2010,"Influenza A virus subtype H1N1",NA,6788214394,NA
+"229","2017 dengue outbreak in Peshawar",2017,2017,"Dengue fever",69,NA,NA
+"230","2017 Gorakhpur Japanese encephalitis outbreak",2017,2017,"Japanese encephalitis",1317,NA,NA
+"231","2017 dengue outbreak in Sri Lanka",2017,2017,"Dengue fever",440,NA,NA
+"232","2017–18 United States flu season",2017,2018,"Seasonal influenza",61000,NA,NA
+"233","2018 Nipah virus outbreak in Kerala",2018,2018,"Nipah virus infection",17,NA,NA
+"234","Kivu Ebola epidemic",2018,2020,"Ebola",2280,NA,NA
+"235","2018 NDM-CRE outbreak in Italy",2018,NA,"New Delhi metallo-beta-lactamase-producing Carbapenem-resistant enterobacteriaceae",31,NA,NA
+"236","2019 measles outbreak in the Democratic Republic of the Congo",2019,2020,"Measles",7018,NA,NA
+"237","2019–2020 New Zealand measles outbreak",2019,2020,"Measles",2,NA,NA
+"238","2019 Philippines measles outbreak",2019,2019,"Measles",415,NA,NA
+"239","2019 Kuala Koh measles outbreak",2019,2019,"Measles",15,NA,NA
+"240","2019 Samoa measles outbreak",2019,NA,"Measles",83,NA,NA
+"241","2019–20 dengue fever epidemic",2019,NA,"Dengue fever",3930,NA,NA
+"242","COVID-19 pandemic",2019,NA,"Coronavirus disease 2019 / COVID-19",2600000,NA,NA
+"243","2019 Nigeria lassa fever epidemic",2019,NA,"Lassa fever",246,NA,NA
+"244","2020 Democratic Republic of the Congo Ebola outbreak",2020,2020,"Ebola",55,NA,NA
+"245","2020 novel bunyavirus outbreak",2020,NA,"Severe fever with thrombocytopenia syndrome",7,NA,NA
+"246","2020 Nigeria yellow fever epidemic",2020,NA,"Yellow Fever",296,NA,NA

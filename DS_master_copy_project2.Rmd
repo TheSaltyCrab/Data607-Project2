@@ -1,0 +1,573 @@
+---
+title: "Project 2"
+author: "Daniel Sullivan"
+date: "3/14/2021"
+output: html_document
+---
+```{r load libraries and data, message=FALSE, warning=FALSE}
+library(kableExtra)
+library(openintro)
+library(tinytex)
+library(tidyverse)
+library(stringr)
+library(magrittr)
+library(gridExtra)
+library(readxl)
+library(kableExtra)
+```
+
+##Dataset 1: Bureau of Labor Statistics Data
+
+*Description of the dataset:*
+
+The data consists of six CSV files from the Bureau of Labor Statistics showing numbers of Americans involved in various occupations and industries, spanning the years 2015 through 2020.  Each file is in the same format. The data set is “wide” – occupations run horizontally and industries run vertically.  
+
+*Challenges with the data set:*
+ 
+  1.	The data set needs to be converted from wide to long, and needs to include a year column and a demographic column.
+  2.	The industries which run vertically are repeated six times  - for two genders, three races, and a total. These will need to be collected together.
+  3.	The race categories do not add up to the total because they don’t comprise all of the possible races. Therefore an “other race” category will need to calculated and then created.
+  4.	The occupations do not appear at the top of the raw data (they appear in the fifth row), which means they need to be extracted and inserted as column headings for the data set.  There are a number of issues with these column headings - for example, they are too long, and they include the insertion of dashes and carriage returns which will need to be removed.
+  5.	Some of the rows are summary rows and will need to be removed. In some cases, remaining rows will need to be renamed as they don’t make sense standing alone without the summary row.
+  6.	All of the years of the data set need to be appended to the data frame
+  7.  The demographic categories (race, gender and total) need to be spread out as columns and arranged in order.
+
+1. First, the first year of data is read into a data frame: 
+
+``` {r load data}
+dfBLS_raw <- read.delim("https://raw.githubusercontent.com/ericonsi/CUNY_607/main/Projects/Project%202/bls-2015.csv", sep=",")
+```
+2. Next, we drop any columns we don't need and add any columns we do.  In this case there is one of each:
+
+  a. Drop the Totals column
+  b. Add the Year column
+
+```{r drop totals column and add year}
+dfBLS <- dfBLS_raw %>%
+  select(-"X") %>%
+  mutate(Year = "2015") 
+```
+
+3. Now we need to fix the column names (the column names should be the occupations, but they are not because the occupations were not at the top of the file.)  We will need to extract the column names into a vector, clean the names of any extraneous characters and other issues, and use the vector to rename the dataframe columns:
+
+  a. Get a vector for the column names from the row that contains them
+  b. Clean the column names by replacing the hyphens and paragraph breaks, taking out unneeded words like 'occupations', etc.
+  c. Rename the columns using the vector
+
+```{r columns}
+#Extract the names
+vColumnNames <- as.character(dfBLS %>%
+  filter(row_number() %in% 5) %>%
+  select(-contains("Household") & -"Year"))
+#Clean the names
+vColumnNames = str_replace_all(vColumnNames, "[\r\n]", " ")
+vColumnNames = str_replace_all(vColumnNames, "-   ", "")
+vColumnNames = str_replace_all(vColumnNames, "- ", "")
+vColumnNames = str_replace_all(vColumnNames, "  ", "")
+vColumnNames = str_replace_all(vColumnNames, " occupations", "")
+#Replace the dataframe names with the extracted names
+dfBLS %<>%
+  rename(Industry = contains("Household"), !!vColumnNames[1] := X.1, !!vColumnNames[2] := X.2, !!vColumnNames[3] := X.3, !!vColumnNames[4] := X.4, !!vColumnNames[5] := X.5, !!vColumnNames[6] := X.6, !!vColumnNames[7] := X.7, !!vColumnNames[8] := X.8, !!vColumnNames[9] := X.9, !!vColumnNames[10] := X.10, !!vColumnNames[11] := X.11)
+```
+
+4. The industries are repeated six times for total, female, male, Black, Asian, and White.  Each of these units will need to be extracted into its own data frame, and the columns gathered into "long" format.  We will also do some cleaning of extraneous rows:
+
+  a. Select rows using 'filter'
+  b. Add the relevant demographic info as a column (.e.g Gender or Race)
+  c. Handle rows which merely summarize other rows\
+    1. Remove the summary row\
+    2. Rename the remaining rows where necessary
+  c. Gather columns (using handy vector names column) to convert from wide to long
+ 
+
+```{r filter into demographic units}
+DemographicUnit <- function(df, rowStart, rowEnd, demoContent)
+{
+ 
+#Extract units based on rows, insert a column with demographic category, remove summary rows and gather the dataframe into long format 
+dfNew <- df %>% 
+  filter(row_number() %in% rowStart:rowEnd) %>%
+  mutate(demog := demoContent) %>%
+  filter(Industry !="Manufacturing" & Industry !="Wholesale and retail trade" & Industry !="Other services") %>%
+  gather(all_of(vColumnNames),  key="Occupation", value="NumberEmployed")
+#The new "NumberEmployed" category needs to be turned into an integer from character. This means removing the comma, and recasting it as an integer. A unique row ID is also created here which will simplify merging the data frame with others.
+  dfNew$NumberEmployed = str_replace_all(dfNew$NumberEmployed, ",", "")
+  dfNew <- mutate_at(dfNew, vars(NumberEmployed), list(as.integer)) %>%
+  mutate(RowID = row_number())
+#Some of the rows which were summarized by summary rows need to be reworded.
+  dfNew$Industry = str_replace_all(dfNew$Industry, "Durable goods", "Manufacturing, durable goods")
+  dfNew$Industry = str_replace_all(dfNew$Industry, "Nondurable goods", "Manufacturing, nondurable goods")
+  dfNew$Industry = str_replace_all(dfNew$Industry, "Private households", "Other services, private households only")
+return (dfNew)
+}
+#Each of the units is extracted using the function we've just created
+dfBLS_Men = DemographicUnit(dfBLS, 29, 47, "Male")
+dfBLS_Women = DemographicUnit(dfBLS, 50, 68, "Female")
+dfBLS_White = DemographicUnit(dfBLS, 71, 89, "White")
+dfBLS_Black = DemographicUnit(dfBLS, 92, 110, "Black")
+dfBLS_Asian = DemographicUnit(dfBLS, 113, 131, "Asian")
+dfBLS_Total = DemographicUnit(dfBLS, 8, 26, "Total")
+  
+```
+5. Create the unified dataframe by binding all the race and gender dataframes together:
+
+```{r cr}
+dfAll <- rbind(dfBLS_Women, dfBLS_Men, dfBLS_Black, dfBLS_White, dfBLS_Asian, dfBLS_Total)
+```
+
+6. Spread the dataframe by demographic unit and create the "Other Race" column by comparing the three race units to the total
+  a. Spread the dataframe using TidyR so each demographic unit is a column
+  b. Create a category called "Other" which is the Total minus the other ace categories
+  d. Create Final dataframe to accept more years
+  
+
+```{r Other Race}
+dfAll %<>% 
+  spread(demog, NumberEmployed) %<>%
+  mutate_at(vars(Black, White, Asian, Total), list(as.numeric)) %<>%
+  mutate(Other = Total-(Black + White + Asian))
+dfFinal <- dfAll
+```
+
+This is the last step. We now have a clean data frame in long form. The only thing that remains is using the same steps to read in the other years and appending those dataframes to this.  We do this with a function that brings all of the steps together.  
+
+```{r years}
+ReadYear <- function(bls_Year)
+{
+fileName <- str_c("https://raw.githubusercontent.com/ericonsi/CUNY_607/main/Projects/Project%202/bls-", bls_Year, ".csv")
+dfBLS_raw <- read.delim(fileName, sep=",")
+dfBLS <- dfBLS_raw %>%
+  select(-"X") %>%
+  mutate(Year = bls_Year) 
+vColumnNames <- as.character(dfBLS %>%
+  filter(row_number() %in% 5) %>%
+  select(-contains("Household") & -"Year"))
+vColumnNames = str_replace_all(vColumnNames, "[\r\n]", " ")
+vColumnNames = str_replace_all(vColumnNames, "-   ", "")
+vColumnNames = str_replace_all(vColumnNames, "- ", "")
+vColumnNames = str_replace_all(vColumnNames, "-", "")
+vColumnNames = str_replace_all(vColumnNames, "  ", "")
+vColumnNames = str_replace_all(vColumnNames, " occupations", "")
+dfBLS %<>%
+  rename(Industry = contains("Household"), !!vColumnNames[1] := X.1, !!vColumnNames[2] := X.2, !!vColumnNames[3] := X.3, !!vColumnNames[4] := X.4, !!vColumnNames[5] := X.5, !!vColumnNames[6] := X.6, !!vColumnNames[7] := X.7, !!vColumnNames[8] := X.8, !!vColumnNames[9] := X.9, !!vColumnNames[10] := X.10, !!vColumnNames[11] := X.11)
+dfBLS_Men = DemographicUnit(dfBLS, 29, 47, "Male")
+dfBLS_Women = DemographicUnit(dfBLS, 50, 68, "Female")
+dfBLS_White = DemographicUnit(dfBLS, 71, 89, "White")
+dfBLS_Black = DemographicUnit(dfBLS, 92, 110, "Black")
+dfBLS_Asian = DemographicUnit(dfBLS, 113, 131, "Asian")
+dfBLS_Total = DemographicUnit(dfBLS, 8, 26, "Total")
+dfAll <- rbind(dfBLS_Women, dfBLS_Men, dfBLS_Black, dfBLS_White, dfBLS_Asian, dfBLS_Total)
+dfAll %<>% 
+  spread(demog, NumberEmployed) %<>%
+  mutate_at(vars(Black, White, Asian, Total), list(as.numeric)) %<>%
+  mutate(Other = Total-(Black + White + Asian))
+  return(dfAll)
+}
+dfs <- ReadYear("2016")
+dfFinal <- rbind(dfFinal, dfs)
+dfs <- ReadYear("2017")
+dfFinal <- rbind(dfFinal, dfs)
+dfs <- ReadYear("2018")
+dfFinal <- rbind(dfFinal, dfs)
+dfs <- ReadYear("2019")
+dfFinal <- rbind(dfFinal, dfs)
+dfs <- ReadYear("2020")
+dfFinal <- rbind(dfFinal, dfs)
+dfFinal %<>%
+  select("Year", "Industry", "Occupation", "Female", "Male", "Black", "White", "Asian", "Other", "Total")
+```
+Thus we go from this:
+
+```{r vv}
+head(dfBLS_raw,10) %>%
+  kbl(caption = "Raw Data - BLS") %>%
+  kable_styling(bootstrap_options = c("condensed"))
+```
+to this:
+
+```{r gfd}
+head(dfFinal) %>%
+  kbl(caption = "Final Data - BLS") %>%
+  kable_styling(bootstrap_options = c("condensed"))
+```
+
+
+
+## Dataset 2: The Upshot - Prison Admissions by County
+### By: Cassie Coste
+
+
+*Description of the dataset:*
+
+The untidy dataset that I selected was used by The Upshot NYT in their article "A Small Indiana County Sends More People to Prison Than San Francisco and Durham, N.C., Combined. Why?" to report on the increase in rural prison populations in recent years. 
+
+The original data was sourced for the article from National Corrections Reporting Program (NCRP). 
+
+There was an additional validation of NCRP data made by comparing admissions numbers to the National Prisoner Statics Program (NPS) or data from individual state departments of corrections. State data years with large differences in admissions numbers between NCRP and NPS (greater than 20 percent) were excluded unless the NCRP numbers could be independently validated. 
+
+States where data was sourced directly from state departments of corrections or sentencing commissions can be identified via the Source column.
+
+*Challenges with the data set:*
+
+The primary issue with the data set is that it contains years in the variable names for three different variables. The goal is to get to a data set with columns for the three prison admission variables and one for year. 
+
+Additionally, to gain insight into this data and look at some of the things that the article was referring to, new variables need to be computed and more county data is needed that was not made available by The Upshot. I will merge county data (2.b) from a separate source to perform the final analysis on my chosen dataset. 
+
+
+
+```{r}
+prison_admissions_raw <- as.data.frame(read.delim("https://raw.githubusercontent.com/TheUpshot/prison-admissions/master/county-prison-admissions.csv", header = TRUE, stringsAsFactors = FALSE, sep = ","))
+head(prison_admissions_raw) %>%
+  kbl(caption = "Raw Data Imported from The Upshot") %>%
+  kable_styling(bootstrap_options = c("striped", "hover", "condensed"))
+```
+
+#### Tidy the data
+
+
+
+```{r, message=FALSE, warning=FALSE}
+# Remove unneeded columns
+# Remove extraneous "county" from every county name
+# Convert admissions columns to numeric
+# Calculate percent change from 2006 to 2014
+prison_admissions_tidy <- select(prison_admissions_raw, -c(valid06, valid13, valid14)) %>%
+    mutate(county = str_remove_all(county, " County")) %>% mutate_at(c('admissions2006', 'admissions2013', 'admissions2014'), as.numeric) %>% mutate(percent_change = (admitsPer10k2014 - admitsPer10k2006) / admitsPer10k2006 * 100)
+```
+
+The biggest task in tidying this data is to transform the data from wide to long for three variables over three time points. 
+
+I am still working on a way to do this using pivot_longer, but I found the most freedom with the reshape function from base R to use the varying argument to denote that I want to gather the different column groups at once the best so far. 
+
+```{r, message=FALSE, warning=FALSE}
+# Transform data from wide to long for population, admissions, and admitsper10k variables
+prison_admissions_long <- reshape(
+  data = prison_admissions_tidy,
+  idvar = "county",
+  varying = list(c(4:6), c(7:9), c(10:12)),
+  sep = "",
+  v.names = c(
+    'prison_admitsper10k',
+    'county_population',
+    'prison_admissions'
+  ),
+  timevar = "year",
+  times = c(2006, 2013, 2014),
+  new.row.names = 1:10000,
+  direction = "long"
+)
+head(prison_admissions_long) %>%
+  kbl(caption = "Prison Long Data") %>%
+  kable_styling(bootstrap_options = c("striped", "hover", "condensed"))
+```
+
+#### Read in 2.b dataset
+
+This data set comes from the U.S. Department of Agriculture's Economic Research Service and was a data file pulled from their Atlas of Rural and Small-Town America on County Classifications. Of importance to the prison data set, this provides county level measures of urbanicity, originally coded from 1-9, with 1-3 being metropolitan areas, 4-7 being urban areas subdivided by their size and proximity to a metropolitan area, and finally 8-9 being rural counties. This analysis also keeps an SES measure, a binary variable called persistent poverty, defined as 20 percent or more of residents were poor when measured by each of the 1980, 1990, 2000 censuses, and 2007-11 American Community Survey 5-year average.
+
+```{r, message=FALSE, warning=FALSE}
+county_data <- as.data.frame(read.delim("https://raw.githubusercontent.com/cassandra-coste/CUNY607/main/County%20Classifications.csv", header = TRUE, stringsAsFactors = FALSE, sep = ",", fileEncoding = "UTF-8-BOM"))
+head(county_data) %>%
+  kbl(caption = "Raw Data Imported from The USDA") %>%
+  kable_styling(bootstrap_options = c("striped", "hover", "condensed"))
+```
+
+#### Tidy the data
+
+```{r, message=FALSE, warning=FALSE}
+# Use Select to isolate the columns with relevant data
+# Change rural-urban continuum code to labeled categories measuring urbanicity 
+# Drop RuralUrbanContinuum columns after new measure is created 
+county_data_tidy <-
+  county_data %>% select(
+    FIPStxt,
+    State,
+    County,
+    RuralUrbanContinuumCode2013,
+    RuralUrbanContinuumCode2003,
+    PersistentPoverty2000
+  ) %>%
+  mutate(urbanicity2013 = ifelse(
+    RuralUrbanContinuumCode2013 %in% 1:3,
+    "Metropolitan",
+    ifelse(
+      RuralUrbanContinuumCode2013  %in% c("4", "6"),
+      "Urban_Adjacent",
+      ifelse(
+        RuralUrbanContinuumCode2013  %in% c("5", "7"),
+        "Urban_NonAdjacent",
+        ifelse(RuralUrbanContinuumCode2013  %in% c("8", "9"),
+               "Rural",
+               NA)
+      )
+    )
+  )) %>%
+  
+  mutate(urbanicity2003 = ifelse(
+    RuralUrbanContinuumCode2003 %in% 1:3,
+    "Metropolitan",
+    ifelse(
+      RuralUrbanContinuumCode2003  %in% c("4", "6"),
+      "Urban_Adjacent",
+      ifelse(
+        RuralUrbanContinuumCode2003  %in% c("5", "7"),
+        "Urban_NonAdjacent",
+        ifelse(RuralUrbanContinuumCode2003  %in% c("8", "9"),
+               "Rural",
+               NA)
+      )
+    )
+  )) %>% select(-c(RuralUrbanContinuumCode2003, RuralUrbanContinuumCode2013))
+head(county_data_tidy)%>%
+  kbl(caption = "County Data with Relevant Variables") %>%
+  kable_styling(bootstrap_options = c("striped", "hover", "condensed"))
+```
+
+#### Join the two datasets
+
+```{r, message=FALSE, warning=FALSE}
+# Use a right join to add county level data to the tidy version of the prison admissions data
+prison_data_joined <- prison_admissions_long  %>% right_join(county_data_tidy, by=c("fips" = "FIPStxt", "state" = "State", "county" = "County")) 
+# Assign 2003 data or 2013 data based on whether prison admissions data is from 2006, 2013, or 2014. The 2003 urbanicity data is based on the 2000 census and should be used for 2006, while the 2013 urbanicity is based on the 2010 census and should be used for the 2013 and 2014 data. 
+# Remove Urbanicity2003 and urbanicity2013 columns as no longer needed
+# Round numeric columns for presentation as calculations are done
+prison_data_final <- within(prison_data_joined, {
+  urbanicity <- ifelse(year == "2006",
+                       paste(urbanicity2003),
+                       ifelse(
+                         year == "2013",
+                         paste(urbanicity2013),
+                         ifelse(year == "2014", paste(urbanicity2013), NA)
+                       ))
+}) %>% select(-c(urbanicity2003, urbanicity2013)) %>% rename(persistent_poverty = PersistentPoverty2000) %>% mutate(across(where(is.numeric), round, 2))
+# Convert year variable from numeric to factor 
+prison_data_final$year <-as.factor(prison_data_final$year)
+head(prison_data_final) %>%
+  kbl(caption = "Prison and County Data") %>%
+  kable_styling(bootstrap_options = c("striped", "hover", "condensed"))
+```
+
+# Data Set 3: Historic Epidemics
+### By: Daniel Sullivan(me)
+
+*Description of the dataset:*
+
+*Challenges with the data set:*
+
+
+Import csv pandemic file and view the data frame. and remove Referance columns since this info was lost when it was converted to csv format. 
+```{r}
+epidemic<-read.csv("https://raw.githubusercontent.com/TheSaltyCrab/Data607-Project2/main/epidemic.csv")
+pop_pre1940<- read.csv("https://raw.githubusercontent.com/TheSaltyCrab/Data607-Project2/main/worldpop_pre1940.csv")
+pop_post1950<- read.csv("https://raw.githubusercontent.com/TheSaltyCrab/Data607-Project2/main/worldpop_post1950.csv")
+options(scipen = 999)
+```
+
+### Standardizing and cleaning each data set.
+
+#### Epidemic Data
+
+First clear the reference column since we wont need it and then clear the empty space that was made from the images that originally were inserted in the table. 
+```{r}
+epidemic2<-epidemic%>%
+  select(-"Ref.")%>%
+  filter(Event != "")
+```
+
+This block separates out the year the event ended from the Date column. It first removes any parenthesis from the data then extracts the actual end date from the range and then removes all hyphans in the data set
+
+```{r}
+epidemic2$end_date<-epidemic2$Date%>%
+  str_replace_all("\\(.*\\)", "")%>%
+  str_extract("–.*")%>%
+  str_remove_all("–")
+```
+
+This block this block removes excess data from the date and event columns respectively starting with data in parenthasis and then for the date column removing the end date and hyphen.
+
+```{r}
+epidemic2$Date<-epidemic2$Date%>% 
+  str_replace_all("\\(.*\\)", "")%>%
+  str_remove_all("–.*")
+  
+epidemic2$Event<-epidemic2$Event%>%
+  str_replace_all("\\(.*\\)", "")
+```
+
+
+These two blocks break out the death toll estimate column into two separate columns a high estimate and a low estimate. these lines first target any non formatted excess data like notes in parentheses, plus signs after numbers and any signatures left behind by wikipedia references. It then replaces any events with unknown death tolls and descriptions with just the unknown value. in the case of the first row it extracts the high prediction for death toll and makes a new column. It converts any value in the millions from "1 million" to the numeric value. lastly it clears all non numeric values from the low estimate column.
+```{r}
+epidemic2$death_high<-epidemic2$Death.toll..estimate.%>%
+  #str_replace_all("\\(.*\\)", "")%>%
+  str_remove_all("\\(.*\\)|\\+")%>%
+  str_replace_all(".*Unknown.*", "Unknown")%>%
+  str_extract("–.*")%>%
+  str_remove_all("–|,")%>%
+  str_replace_all("2.5 million", "2500000")%>%
+  str_replace_all(" million", "000000")
+
+epidemic2$Death.toll..estimate.<-epidemic2$Death.toll..estimate.%>%
+  str_remove_all("\\(.*\\)|\\+|,|\\[.{3,3}\\]|")%>%
+  str_replace_all(".*Unknown.*", "Unknown")%>%
+  str_replace_all("2.6 million", "2600000")%>%
+  str_replace_all("–.* million", "000000")%>%
+  str_replace_all(" million", "000000")%>%
+  str_remove_all("–.*")%>%
+  str_match("[0-9]*")
+```
+
+
+```{r}
+epidemic2$Disease<-epidemic2$Disease%>%
+  str_replace_all(".*Unknown.*", "Unknown")
+```
+
+
+Here I set all column names as well as all colums that need to be numeric. 
+```{r}
+colnames(epidemic2)<-c("event", "start_year","location","disease","deaths_low_estimate","end_year","deaths_high_estimate")
+
+epidemic2$end_year<- ifelse(is.na(epidemic2$end_year), epidemic2$start_year, epidemic2$end_year)
+
+epidemic2$start_year<-as.numeric(epidemic2$start_year)
+epidemic2$deaths_low_estimate<-as.numeric(epidemic2$deaths_low_estimate)
+epidemic2$end_year<-as.numeric(epidemic2$end_year)
+epidemic2$deaths_high_estimate<-as.numeric(epidemic2$deaths_high_estimate)
+```
+
+
+This for/if/else statement rounds the years so that when I do the join of our three data frames I have a prediction of population for each plague that changes as population predictions/measurements get more accurate. The goal of this is to change as our data improves and we have fewer years between a measurment/prediction. Here we are rounding up to the century between 1AD and 1900AD, to every 10 years between 1900 and 1950, and not rounding at all from 1950 on.
+
+```{r}
+
+epidemic2$rounded_year<-lapply(epidemic2$start_year, function(x) if(x <= 999){signif(x, digits = 1)} else if(1900>x){signif(x,digits = 2)}else if(x<1950){signif(x,digits = 3)} else {x})
+
+```
+
+#### Population data
+
+I start by cutting out the data we do not need i.e BCE dates with tail and then selecting which metric of measuring is best. for this I chose HYDE since the data had the most time points and had more consistent intervals. After that we remove all commas and then turn the M in each cell to a numeric value making the number in millions. after that we rename the columns and convert to numeric.
+```{r}
+pre1940_noBC<- pop_pre1940%>%
+  tail(35)
+pre1940_noBC<- pre1940_noBC%>%
+  select(ï..Year,HYDE)%>%
+  filter(HYDE != "")
+pre1940_noBC$HYDE<- pre1940_noBC$HYDE%>%
+  str_remove_all(",")%>%
+  str_replace_all("M.*","000000")
+colnames(pre1940_noBC)<-c("rounded_year", "global_population")
+pre1940_noBC$rounded_year<-as.numeric(pre1940_noBC$rounded_year)
+pre1940_noBC$global_population<-as.numeric(pre1940_noBC$global_population)
+```
+
+This data frame is global populations from 1950 to 2017 by a number of groups. We used the USA census data for this project. First I select the columns for USA census and then rename them so that when we combine pop data it combines easily. then we clear all commas from the data so we can convert to numeric.
+
+```{r}
+post1950_US<-pop_post1950%>%
+  select(ï..Year,United.States.Census.Bureau)
+colnames(post1950_US)<-c("rounded_year", "global_population")
+post1950_US$global_population<-post1950_US$global_population%>%
+  str_remove_all(",")
+
+post1950_US$rounded_year<-as.numeric(post1950_US$rounded_year)
+post1950_US$global_population<-as.numeric(post1950_US$global_population)
+```
+
+###combining data and calculations
+
+This binds the two sets of population data essentially stacking one on top of each other where the columns match. 
+
+```{r}
+pop_data<-bind_rows(pre1940_noBC, post1950_US)
+pop_data$rounded_year<-as.list(pop_data$rounded_year)
+```
+
+using the rounded year values in our epidemic table we join our two data tables on the rounded year adding the global population column to our first data set.
+
+```{r}
+epidemic3<-left_join(epidemic2, pop_data, by="rounded_year")
+```
+
+The mutate function is used to calculate a new column for the percentage of the global population that has died for both our low and high estimates.we also remove any data that is out of our range for population this value is anything beyond 2017 
+
+```{r}
+epidemic3<-epidemic3%>%
+  mutate(high_global_death_percent= deaths_high_estimate/global_population)%>%
+  mutate(low_global_death_percent= deaths_low_estimate/global_population)
+
+```
+
+Lastly we oganize the rows and then sort by which disease had the highest mortality percentage. 
+
+```{r}
+epidemic_final<-epidemic3%>%
+  select(c(event, start_year, end_year, disease, deaths_low_estimate, global_population, low_global_death_percent))%>%
+  arrange(desc(low_global_death_percent))
+
+```
+
+
+```{r}
+write.csv(epidemic_final, "a_clean_epidemic.csv")
+```
+
+# Analysis
+### By: Daniel Sullivan
+
+## Dataset 1
+For this data set I wanted to look at each industry and see the difference in between the two genders. Addtitionally I wanted to compare year by year how this has been changing for females and males.
+
+In the first graph I see That the male led fields are construction, mining,  wholesale trade, and transportation. Females tend to dominate private household services education and health services, and just barely nudge out males in financial services. This is very interesting because as society progresses there have deffinatly been a big push for girls to get engaged into much wider topics. it is clear that this diversification has not reached the work force fully as these numbers do not reflect any sense of equality amoing the positions males and femals are hired for. 
+
+The second set of data is interesting because it shows that the total number of both males and femals that are part of the work force is sitting around .54 and .46 for males and femals respectively. This shows that the numbers in the first graph arnt just inflated for each industry due to women staying at home and raising families. But that a few fields are dramatically dominated by women. This is very interesting and it would be interesting to see how this changes as time goes on or to see historically how that has changed. 
+
+```{r}
+summarise(group_by(dfFinal,Industry),industry_female_sum = sum(Female,na.rm = T), industry_male_sum=sum(Male,na.rm = T))%>%
+  
+  mutate(female_ratio=industry_female_sum/(industry_male_sum + industry_female_sum) ,male_ratio=industry_male_sum/(industry_male_sum + industry_female_sum))
+```
+
+
+```{r}
+year_MF_participation<-summarise(group_by(dfFinal, Year),female_sum=sum(Female,na.rm=T), male_sum=sum(Male,na.rm=T))%>%
+  mutate(female_ratio=female_sum/(male_sum + female_sum) ,male_ratio=male_sum/(male_sum + female_sum))
+year_MF_participation
+```
+
+
+## Dataset 2
+For this data set I wanted to look at the urban verse rural imprisonment levels and compare the different rates per 10k inhabitants to see how what environment you live in influences crime. 
+
+```{r}
+summarise(group_by(prison_data_final, urbanicity),total_prison_admissions = sum(prison_admissions,na.rm = T), prison_sum_per_10k=sum(prison_admitsper10k, na.rm = T), prison_avg_per_10k=mean(prison_admitsper10k, na.rm = T))
+```
+
+Here we can see that metropolotan has significantly less prison bookings per capita as compared to the rest of the areas. We do see however that the areas surrounding the citys have the highest prison admitants rate per capita which does make sense with the increase of metropolotan areas being gentrified and lower income peoples being pushed further out from the city.
+
+
+
+##Dataset 3
+
+####Goal: for this data set I wanted to first graph the top ten most deadly plagues based on population killed as well as look at which disease had the most occurances.These views into the data will be by lowest prediction for percentage population killed.  
+
+```{r}
+epidemic_final<- epidemic_final%>%
+  arrange(desc(low_global_death_percent))
+epidemic_top_killers<-head(epidemic_final)
+epidemic_top_killers%>%
+  ggplot(aes(x=event, y=low_global_death_percent))+geom_bar(stat = "identity")+coord_flip()
+```
+```{r}
+epidemic_count<-table(epidemic_final$disease)
+
+epidemic_count%>%
+  as.data.frame()%>%
+  arrange(desc(Freq))%>%
+  head()%>%
+  ggplot(aes(x=Var1, y=Freq))+geom_bar(stat = "identity")+coord_flip()
+  
+```
+
+It is clear that for nastiest plagues in history bubonic plague is the clear winner. We see it has the most occurances and highest death per capita rate in a single event. It seems the next best killer is small pox with the Mexican small pox outbreak making top five worst outbreaks and smallpox being number three in most outbreaks in history.
+
